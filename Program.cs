@@ -3,102 +3,104 @@ using System.Threading;
 
 public class Stopwatch
 {
-    // Fields
-    private int _timeElapsed; // Time elapsed in seconds
-    private bool _isRunning;
+    private TimeSpan timeElapsed;
+    private bool isRunning;
+    private Thread tickThread;
 
-    // Delegates and Events
     public delegate void StopwatchEventHandler(string message);
-    public event StopwatchEventHandler OnStarted = delegate { };
-    public event StopwatchEventHandler OnStopped = delegate { };
-    public event StopwatchEventHandler OnReset = delegate { };
+    public event StopwatchEventHandler OnStarted;
+    public event StopwatchEventHandler OnStopped;
+    public event StopwatchEventHandler OnReset;
 
-    // Properties
-    public int TimeElapsed => _timeElapsed;
-    public bool IsRunning => _isRunning;
+    public TimeSpan TimeElapsed => timeElapsed;
+    public bool IsRunning => isRunning;
 
-    // Methods
     public void Start()
     {
-        if (_isRunning)
+        if (!isRunning)
         {
-            Console.WriteLine("Stopwatch is already running.");
-            return;
+            isRunning = true;
+            tickThread = new Thread(Tick);
+            tickThread.Start();
+            OnStarted?.Invoke("Stopwatch Started!");
         }
-        _isRunning = true;
-        OnStarted?.Invoke("Stopwatch Started!");
-        RunStopwatch();
     }
 
     public void Stop()
     {
-        if (!_isRunning)
+        if (isRunning)
         {
-            Console.WriteLine("Stopwatch is not running.");
-            return;
+            isRunning = false;
+            
+            OnStopped?.Invoke($"Stopwatch Stopped! Time Elapsed: {timeElapsed}");
         }
-        _isRunning = false;
-        OnStopped?.Invoke("Stopwatch Stopped!");
     }
 
     public void Reset()
     {
-        _isRunning = false;
-        _timeElapsed = 0;
+        Stop();
+        timeElapsed = TimeSpan.Zero;
+       
         OnReset?.Invoke("Stopwatch Reset!");
     }
 
-    private void RunStopwatch()
+    private void Tick()
     {
-        new Thread(() =>
+        while (isRunning)
         {
-            while (_isRunning)
+            Thread.Sleep(1000); 
+            if (isRunning)  
             {
-                Thread.Sleep(1000);
-                _timeElapsed++;
-                Console.WriteLine($"Time Elapsed: {_timeElapsed} seconds");
+                timeElapsed = timeElapsed.Add(TimeSpan.FromSeconds(1));
+                Console.WriteLine($"Time Elapsed: {timeElapsed}");
             }
-        }).Start();
+        }
+    }
+
+    public void StopThread()
+    {
+       
+        if (tickThread != null && tickThread.IsAlive)
+        {
+            tickThread.Abort();
+            tickThread = null;
+        }
     }
 }
 
 class Program
 {
-    static void Main(string[] args)
+    static void Main()
     {
-        Stopwatch stopwatch = new Stopwatch();
-
+        var stopwatch = new Stopwatch();
+        
         // Subscribe to events
         stopwatch.OnStarted += message => Console.WriteLine(message);
         stopwatch.OnStopped += message => Console.WriteLine(message);
         stopwatch.OnReset += message => Console.WriteLine(message);
 
-        Console.WriteLine("Stopwatch Console Application");
-        Console.WriteLine("Press S to Start, T to Stop, R to Reset, and Q to Quit.");
+        Console.WriteLine("Press S to start, T to stop, R to reset, Any key to exit.");
 
-        bool quit = false;
-        while (!quit)
+        while (true)
         {
-            char input = Console.ReadKey(true).KeyChar;
+            var key = Console.ReadKey(true).Key;
 
-            switch (char.ToUpper(input))
+            switch (key)
             {
-                case 'S':
+                case ConsoleKey.S:
                     stopwatch.Start();
                     break;
-                case 'T':
+                case ConsoleKey.T:
                     stopwatch.Stop();
                     break;
-                case 'R':
+                case ConsoleKey.R:
                     stopwatch.Reset();
                     break;
-                case 'Q':
-                    quit = true;
-                    Console.WriteLine("Exiting Stopwatch...");
-                    break;
+                
                 default:
-                    Console.WriteLine("Invalid input. Please press S, T, R, or Q.");
-                    break;
+                   Console.WriteLine("Exiting...");
+                    stopwatch.StopThread(); 
+                    return; // Exit the application
             }
         }
     }
