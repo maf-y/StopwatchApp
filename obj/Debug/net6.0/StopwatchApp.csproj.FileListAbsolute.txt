@@ -1,0 +1,15 @@
+C:\Users\miera\Desktop\elective\StopwatchApp\obj\Debug\net6.0\StopwatchApp.csproj.AssemblyReference.cache
+C:\Users\miera\Desktop\elective\StopwatchApp\obj\Debug\net6.0\StopwatchApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\miera\Desktop\elective\StopwatchApp\obj\Debug\net6.0\StopwatchApp.AssemblyInfoInputs.cache
+C:\Users\miera\Desktop\elective\StopwatchApp\obj\Debug\net6.0\StopwatchApp.AssemblyInfo.cs
+C:\Users\miera\Desktop\elective\StopwatchApp\obj\Debug\net6.0\StopwatchApp.csproj.CoreCompileInputs.cache
+C:\Users\miera\Desktop\elective\StopwatchApp\bin\Debug\net6.0\StopwatchApp.exe
+C:\Users\miera\Desktop\elective\StopwatchApp\bin\Debug\net6.0\StopwatchApp.deps.json
+C:\Users\miera\Desktop\elective\StopwatchApp\bin\Debug\net6.0\StopwatchApp.runtimeconfig.json
+C:\Users\miera\Desktop\elective\StopwatchApp\bin\Debug\net6.0\StopwatchApp.dll
+C:\Users\miera\Desktop\elective\StopwatchApp\bin\Debug\net6.0\StopwatchApp.pdb
+C:\Users\miera\Desktop\elective\StopwatchApp\obj\Debug\net6.0\StopwatchApp.dll
+C:\Users\miera\Desktop\elective\StopwatchApp\obj\Debug\net6.0\refint\StopwatchApp.dll
+C:\Users\miera\Desktop\elective\StopwatchApp\obj\Debug\net6.0\StopwatchApp.pdb
+C:\Users\miera\Desktop\elective\StopwatchApp\obj\Debug\net6.0\StopwatchApp.genruntimeconfig.cache
+C:\Users\miera\Desktop\elective\StopwatchApp\obj\Debug\net6.0\ref\StopwatchApp.dll
